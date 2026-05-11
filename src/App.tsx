@@ -3,36 +3,22 @@ import { Smartphone, Nfc, Sun, Cloud, CloudRain, CloudSnow, CloudLightning, Hist
 
 const Logo = () => (
   <div style={{
-    width: '86px',
-    height: '86px',
+    width: '64px',
+    height: '64px',
     backgroundColor: 'black',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
   }}>
     <div style={{
-      width: '52px',
-      height: '52px',
+      width: '38px',
+      height: '38px',
       border: '2px solid white',
       borderRadius: '50%'
     }} />
   </div>
 );
 
-const DecorativeBackground = () => (
-  <div style={{
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    height: '25vh',
-    backgroundColor: '#ffffff',
-    borderTop: '6px solid #000000',
-    borderRadius: '100% 100% 0 0 / 100% 100% 0 0',
-    zIndex: 1,
-    pointerEvents: 'none'
-  }} />
-);
 
 const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = false }: { showLogo?: boolean, showProfile?: boolean, title?: string, icon?: React.ReactNode, sticky?: boolean }) => {
   const [time, setTime] = useState(new Date());
@@ -92,8 +78,8 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingTop: '24px',
-      paddingBottom: '24px',
+      paddingTop: '20px',
+      paddingBottom: '20px',
       width: '100%',
       position: sticky ? 'sticky' : 'absolute',
       top: 0,
@@ -104,18 +90,18 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
       borderBottom: sticky ? '4px solid #000000' : 'none',
       maxWidth: '100%' 
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
         {showLogo && <Logo />}
         {showProfile && !title && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{
-              width: '120px',
-              height: '120px',
+              width: '80px',
+              height: '80px',
               borderRadius: '50%',
               overflow: 'hidden',
               backgroundColor: '#ffffff',
               flexShrink: 0,
-              border: '4px solid #000000',
+              border: '3px solid #000000',
               filter: 'grayscale(100%) contrast(1.2)'
             }}>
               <img 
@@ -124,27 +110,27 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
-            <h1 style={{ fontSize: '72px', fontWeight: 800, margin: 0, color: '#000000' }}>Léa</h1>
+            <h1 style={{ fontSize: '40px', fontWeight: 800, margin: 0, color: '#000000' }}>Léa</h1>
           </div>
         )}
         {title && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-             {icon || <ClipboardList size={80} strokeWidth={2.5} />}
-             <h1 style={{ fontSize: '72px', fontWeight: 800, margin: 0, color: '#000000' }}>{title}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+             {icon ? React.cloneElement(icon as React.ReactElement, { size: 48 }) : <ClipboardList size={48} strokeWidth={2.5} />}
+             <h1 style={{ fontSize: '40px', fontWeight: 800, margin: 0, color: '#000000' }}>{title}</h1>
           </div>
         )}
       </div>
       
       <div style={{
         display: 'flex',
-        gap: '48px',
+        gap: '32px',
         alignItems: 'center',
-        fontSize: '32px',
+        fontSize: '20px',
         fontWeight: 700,
         color: '#000000'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {weather ? getWeatherIcon(weather.code) : <Sun size={40} />}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {weather ? React.cloneElement(getWeatherIcon(weather.code) as React.ReactElement, { size: 28 }) : <Sun size={28} />}
           <span>{weather ? `${weather.temp}°` : '...'}</span>
         </div>
         <span style={{ textTransform: 'capitalize' }}>{formattedDate}</span>
@@ -188,7 +174,7 @@ const Onboarding = ({ onUnlock }: { onUnlock: () => void }) => {
             Salut ! Prêt à jardiner ?
           </p>
           <h1 style={{
-            fontSize: '64px',
+            fontSize: '40px',
             fontWeight: 700,
             color: '#000',
             letterSpacing: '-0.02em',
@@ -203,46 +189,34 @@ const Onboarding = ({ onUnlock }: { onUnlock: () => void }) => {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          gap: '32px'
+          gap: '24px'
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '140px', padding: '0 40px' }}>
-              <Nfc size={48} strokeWidth={2} />
-              <span style={{ fontSize: '32px', fontWeight: 600 }}>
+            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '100px', padding: '0 32px' }}>
+              <Nfc size={32} strokeWidth={2} />
+              <span style={{ fontSize: '24px', fontWeight: 600 }}>
                 Passer mon Badge
               </span>
             </div>
-            <p style={{ fontSize: '18px', color: '#1a1a1a', fontWeight: 500, margin: 0, textAlign: 'left', width: '100%' }}>
+            <p style={{ fontSize: '16px', color: '#1a1a1a', fontWeight: 500, margin: 0, textAlign: 'left', width: '100%' }}>
               Pose ton badge contre le capteur noir sur le flanc droit de la borne.
             </p>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '140px', padding: '0 40px' }}>
-              <Smartphone size={48} strokeWidth={2} />
-              <span style={{ fontSize: '32px', fontWeight: 600 }}>
+            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '100px', padding: '0 32px' }}>
+              <Smartphone size={32} strokeWidth={2} />
+              <span style={{ fontSize: '24px', fontWeight: 600 }}>
                 Détection mobile
               </span>
             </div>
-            <p style={{ fontSize: '18px', color: '#1a1a1a', fontWeight: 500, margin: 0, textAlign: 'left', width: '100%' }}>
+            <p style={{ fontSize: '16px', color: '#1a1a1a', fontWeight: 500, margin: 0, textAlign: 'left', width: '100%' }}>
               Appuie sur « Je suis au jardin » dans ton application pour déverrouiller la borne.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Bottom curve background */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        height: '25vh',
-        backgroundColor: '#ffffff',
-        borderTop: '6px solid #000000',
-        clipPath: 'ellipse(100% 100% at 50% 100%)',
-        zIndex: 1
-      }}></div>
     </main>
   );
 };
@@ -275,7 +249,7 @@ const Transition = ({ onComplete }: { onComplete: () => void }) => {
         gap: '12px'
       }}>
         <h1 style={{
-          fontSize: '64px',
+          fontSize: '40px',
           fontWeight: 700,
           color: '#1a1a1a',
           letterSpacing: '-0.02em',
@@ -285,7 +259,7 @@ const Transition = ({ onComplete }: { onComplete: () => void }) => {
           Connexion réussie !
         </h1>
         <p style={{
-          fontSize: '36px',
+          fontSize: '24px',
           fontWeight: 600,
           color: '#333',
           margin: 0
@@ -295,7 +269,6 @@ const Transition = ({ onComplete }: { onComplete: () => void }) => {
       </div>
 
       {/* Bottom decorative ellipse from Figma */}
-      <DecorativeBackground />
     </main>
   );
 };
@@ -532,7 +505,7 @@ const Dashboard = () => {
         }}>
           {journalData.map((section, sIdx) => (
               <div key={sIdx} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>{section.date}</h2>
+                <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>{section.date}</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {section.items.map((item, iIdx) => {
                     const globalIdx = focusableItems.findIndex(fi => fi.title === item.title && fi.time === item.time && fi.sectionDate === section.date);
@@ -563,28 +536,28 @@ const Dashboard = () => {
                           boxShadow: isFocused ? '0 0 0 4px #1a1a1a' : 'none'
                         }}
                       >
-                        <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                            <span style={{ fontSize: '18px', color: '#666', fontWeight: 500 }}>{item.time}</span>
-                            <span style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a' }}>{item.title}</span>
-                          </div>
+                        <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                            <img src={item.avatar} alt="" style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover' }} />
-                            <span style={{ fontSize: '20px', fontWeight: 600, color: '#1a1a1a' }}>{item.author}</span>
+                            <span style={{ fontSize: '14px', color: '#666', fontWeight: 500 }}>{item.time}</span>
+                            <span style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a' }}>{item.title}</span>
+                          </div>
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <img src={item.avatar} alt="" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                            <span style={{ fontSize: '16px', fontWeight: 600, color: '#1a1a1a' }}>{item.author}</span>
                           </div>
                           {item.hasVoice && (
                             <div style={{ 
                               alignSelf: 'flex-start',
                               border: '1px solid #ccc', 
                               borderRadius: '8px', 
-                              padding: '8px 12px', 
+                              padding: '6px 10px', 
                               display: 'flex', 
                               alignItems: 'center', 
                               gap: '8px',
                               backgroundColor: '#fff'
                             }}>
-                              <Mic size={16} />
-                              <span style={{ fontSize: '14px', fontWeight: 600 }}>Note vocale ajoutée</span>
+                              <Mic size={14} />
+                              <span style={{ fontSize: '12px', fontWeight: 600 }}>Note vocale ajoutée</span>
                             </div>
                           )}
                         </div>
@@ -655,7 +628,7 @@ const Dashboard = () => {
             const isFocused = idx === selectedPlanIndex;
             return (
               <div key={parcel.id} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Parcelle n°{parcel.number}</h2>
+                <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Parcelle n°{parcel.number}</h2>
                 <div 
                   className="vibe-nav-item"
                   tabIndex={0}
@@ -667,42 +640,41 @@ const Dashboard = () => {
                     borderRadius: '8px', 
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '32px',
-                    gap: '24px',
+                    padding: '24px',
+                    gap: '16px',
                     transition: 'all 0.1s ease-out',
                     boxShadow: isFocused ? '0 0 0 4px #1a1a1a' : 'none'
                   }}
                 >
-                  <div style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>{parcel.content}</div>
+                  <div style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a' }}>{parcel.content}</div>
                   
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <span style={{ fontSize: '24px', fontWeight: 500, color: '#333' }}>Dernière activité</span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <img src={parcel.avatar} alt="" style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover' }} />
-                      <span style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a' }}>{parcel.lastActivityUser}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span style={{ fontSize: '16px', fontWeight: 500, color: '#333' }}>Dernière activité</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <img src={parcel.avatar} alt="" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                      <span style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a' }}>{parcel.lastActivityUser}</span>
                     </div>
                   </div>
 
                   <div style={{ 
                     display: 'flex', 
                     alignItems: 'center', 
-                    gap: '12px', 
-                    padding: '12px 24px', 
+                    gap: '8px', 
+                    padding: '8px 16px', 
                     backgroundColor: '#fff', 
                     border: '2px solid #ccc', 
                     borderRadius: '8px',
                     alignSelf: 'flex-start'
                   }}>
-                    {parcel.status === 'Privé' ? <Lock size={24} style={{ color: '#666' }} /> : <Users size={24} />}
-                    <span style={{ fontSize: '20px', fontWeight: 700 }}>{parcel.status}{parcel.owner ? ` : ${parcel.owner}` : ''}</span>
+                    {parcel.status === 'Privé' ? <Lock size={18} style={{ color: '#666' }} /> : <Users size={18} />}
+                    <span style={{ fontSize: '14px', fontWeight: 700 }}>{parcel.status}{parcel.owner ? ` : ${parcel.owner}` : ''}</span>
                   </div>
                 </div>
               </div>
             );
           })}
         </div>
-        <DecorativeBackground />
-      </main>
+        </main>
     );
   }
 
@@ -732,45 +704,45 @@ const Dashboard = () => {
           <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', width: '738px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <h1 style={{ fontSize: '48px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Soin des rosiers</h1>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                    <MapPin size={40} color="#1a1a1a" />
-                    <span style={{ fontSize: '28px', fontWeight: 500, color: '#1a1a1a' }}>Parcelle n°1</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Soin des rosiers</h1>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <MapPin size={24} color="#1a1a1a" />
+                    <span style={{ fontSize: '18px', fontWeight: 500, color: '#1a1a1a' }}>Parcelle n°1</span>
                   </div>
                 </div>
                 
-                <div style={{ display: 'flex', gap: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', backgroundColor: '#fff', border: '2px solid #e6e6e6', borderRadius: '8px' }}>
-                    <ClipboardList size={24} />
-                    <span style={{ fontSize: '20px', fontWeight: 600 }}>Entretien</span>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #e6e6e6', borderRadius: '8px' }}>
+                    <ClipboardList size={18} />
+                    <span style={{ fontSize: '14px', fontWeight: 600 }}>Entretien</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', backgroundColor: '#fff', border: '2px solid #e6e6e6', borderRadius: '8px' }}>
-                    <Clock size={24} />
-                    <span style={{ fontSize: '20px', fontWeight: 600 }}>10min</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #e6e6e6', borderRadius: '8px' }}>
+                    <Clock size={18} />
+                    <span style={{ fontSize: '14px', fontWeight: 600 }}>10min</span>
                   </div>
                 </div>
               </div>
 
               <div style={{ 
                 backgroundColor: '#e6e6e6', 
-                padding: '32px 24px', 
+                padding: '20px 24px', 
                 borderRadius: '8px', 
                 display: 'flex', 
-                gap: '16px', 
+                gap: '12px', 
                 alignItems: 'flex-start' 
               }}>
                 <div style={{ 
                   backgroundColor: '#808080', 
-                  padding: '8px', 
+                  padding: '6px', 
                   borderRadius: '8px', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center' 
                 }}>
-                  <Info size={24} color="white" />
+                  <Info size={18} color="white" />
                 </div>
-                <p style={{ fontSize: '24px', fontWeight: 500, color: '#1a1a1a', margin: 0, lineHeight: 1.3 }}>
+                <p style={{ fontSize: '16px', fontWeight: 500, color: '#1a1a1a', margin: 0, lineHeight: 1.3 }}>
                   Utiliser le spray au savon noir sur les feuilles de la parcelle n°4
                 </p>
               </div>
@@ -803,31 +775,31 @@ const Dashboard = () => {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', backgroundColor: '#f0f0f0', filter: 'grayscale(100%)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', overflow: 'hidden', backgroundColor: '#f0f0f0', filter: 'grayscale(100%)' }}>
                   <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop" alt="Daniel" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
-                <span style={{ fontSize: '36px', fontWeight: 600, color: '#1a1a1a' }}>Daniel.P</span>
+                <span style={{ fontSize: '18px', fontWeight: 600, color: '#1a1a1a' }}>Daniel.P</span>
               </div>
-              <div style={{ display: 'flex', gap: '14px', fontSize: '24px', fontWeight: 500, color: '#1a1a1a' }}>
+              <div style={{ display: 'flex', gap: '10px', fontSize: '14px', fontWeight: 500, color: '#1a1a1a' }}>
                 <span>12/01/26</span>
                 <span>16:03</span>
               </div>
             </div>
             <div style={{ 
               backgroundColor: isPlayingVoice ? '#1a1a1a' : '#808080', 
-              height: '80px', 
+              height: '60px', 
               borderRadius: '4px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center', 
-              gap: '32px',
+              gap: '24px',
               transition: 'none'
             }}>
-              {isPlayingVoice ? <Pause size={32} color="white" fill="white" /> : <Play size={32} color="white" fill="white" />}
+              {isPlayingVoice ? <Pause size={24} color="white" fill="white" /> : <Play size={24} color="white" fill="white" />}
               
               {isPlayingVoice && (
-                <div style={{ display: 'flex', gap: '4px', alignItems: 'center', height: '32px' }}>
+                <div style={{ display: 'flex', gap: '3px', alignItems: 'center', height: '24px' }}>
                   {[10, 14, 22, 25, 32, 42, 29, 32, 29, 48, 32, 21, 28, 32, 32, 15, 6, 25, 35, 48, 20, 17, 12, 8].map((height, i, arr) => {
                     const progress = (34 - playbackTime) / 34;
                     const barProgress = i / arr.length;
@@ -838,7 +810,7 @@ const Dashboard = () => {
                         key={i} 
                         className={`voice-bar ${isPlayingVoice ? 'voice-bar-animating' : ''}`} 
                         style={{ 
-                          height: `${height * 0.7}px`,
+                          height: `${height * 0.5}px`,
                           backgroundColor: isFilled ? '#fff' : '#999',
                           animationDelay: `${i * 0.05}s`
                         }} 
@@ -848,7 +820,7 @@ const Dashboard = () => {
                 </div>
               )}
 
-              <span style={{ fontSize: '24px', fontWeight: 600, color: '#fff', minWidth: '80px' }}>
+              <span style={{ fontSize: '16px', fontWeight: 600, color: '#fff', minWidth: '60px' }}>
                 {isPlayingVoice ? `0:${playbackTime.toString().padStart(2, '0')}` : "0:34"}
               </span>
             </div>
@@ -859,36 +831,27 @@ const Dashboard = () => {
             <div className="vibe-nav-item vibe-dark-btn" tabIndex={0} onClick={() => setCurrentView('mission_success')} style={{ 
               backgroundColor: '#1a1a1a', 
               color: 'white', 
-              padding: '16px 24px', 
-              borderRadius: '8px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              gap: '12px',
-              border: '2px solid transparent'
-            }}>
-              <span style={{ fontSize: '18px', fontWeight: 600 }}>Mission réussie</span>
-              <CheckCircle2 size={20} />
+              <span style={{ fontSize: '14px', fontWeight: 600 }}>Mission réussie</span>
+              <CheckCircle2 size={16} />
             </div>
             <div className="vibe-nav-item" tabIndex={0} style={{ 
               backgroundColor: '#fff', 
               color: '#1a1a1a', 
-              padding: '16px 24px', 
+              padding: '12px 20px', 
               borderRadius: '8px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              gap: '12px',
+              gap: '10px',
               border: '2px solid #ccc'
             }}>
-              <span style={{ fontSize: '18px', fontWeight: 600 }}>Besoin d'aide</span>
-              <HelpCircle size={20} />
+              <span style={{ fontSize: '14px', fontWeight: 600 }}>Besoin d'aide</span>
+              <HelpCircle size={16} />
             </div>
           </div>
         </div>
 
-        <DecorativeBackground />
-      </main>
+        </main>
     );
   }
 
@@ -966,8 +929,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <DecorativeBackground />
-        </main>
+            </main>
       );
     }
 
@@ -1022,8 +984,7 @@ const Dashboard = () => {
             </p>
           </div>
 
-          <DecorativeBackground />
-        </main>
+            </main>
       );
     }
 
@@ -1109,8 +1070,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <DecorativeBackground />
-        </main>
+            </main>
       );
     }
 
@@ -1139,8 +1099,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <DecorativeBackground />
-        </main>
+            </main>
       );
     }
 
@@ -1168,9 +1127,9 @@ const Dashboard = () => {
           paddingBottom: '120px'
         }}>
           <div style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column', gap: '48px' }}>
-          <section style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Mes missions</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <section style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Mes missions</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {myMissions.map((mission, idx) => {
                 const isActive = idx === selectedMissionIndex;
                 return (
@@ -1187,8 +1146,8 @@ const Dashboard = () => {
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '12px',
-                      padding: '24px 32px',
+                      gap: '8px',
+                      padding: '20px 24px',
                       borderRadius: '4px',
                       border: '2px solid #ccc',
                       borderColor: isActive ? '#1a1a1a' : '#ccc',
@@ -1199,19 +1158,19 @@ const Dashboard = () => {
                       transition: 'none'
                     }}
                   >
-                    <h3 style={{ fontSize: '28px', fontWeight: 700, margin: 0 }}>{mission.title}</h3>
+                    <h3 style={{ fontSize: '20px', fontWeight: 700, margin: 0 }}>{mission.title}</h3>
                     <div style={{ display: 'flex', gap: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '16px', fontWeight: 500 }}>
-                        <ClipboardList size={18} /> {mission.category}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                        <ClipboardList size={14} /> {mission.category}
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '16px', fontWeight: 500 }}>
-                        <Clock size={18} /> {mission.duration}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                        <Clock size={14} /> {mission.duration}
                       </div>
                     </div>
                     {isActive && (
-                      <div className="ouvrir-panel">
-                        <ArrowRight size={28} />
-                        <span className="ouvrir-text">Ouvrir</span>
+                      <div className="ouvrir-panel" style={{ width: '100px' }}>
+                        <ArrowRight size={20} />
+                        <span className="ouvrir-text" style={{ fontSize: '14px' }}>Ouvrir</span>
                       </div>
                     )}
                   </div>
@@ -1220,9 +1179,9 @@ const Dashboard = () => {
             </div>
           </section>
 
-          <section style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Toutes les missions</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <section style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Toutes les missions</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {allMissions.map((mission, idx) => {
                 const globalIdx = myMissions.length + idx;
                 const isActive = globalIdx === selectedMissionIndex;
@@ -1235,8 +1194,8 @@ const Dashboard = () => {
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '12px',
-                      padding: '24px 32px',
+                      gap: '8px',
+                      padding: '20px 24px',
                       borderRadius: '4px',
                       border: '2px solid #ccc',
                       borderColor: isActive ? '#1a1a1a' : '#ccc',
@@ -1247,27 +1206,27 @@ const Dashboard = () => {
                       transition: 'none'
                     }}
                   >
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <h3 style={{ fontSize: '28px', fontWeight: 700, margin: 0 }}>{mission.title}</h3>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#eee', overflow: 'hidden' }}>
-                          {mission.avatar ? <img src={mission.avatar} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <User size={20} style={{ margin: '6px' }} />}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <h3 style={{ fontSize: '20px', fontWeight: 700, margin: 0 }}>{mission.title}</h3>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#eee', overflow: 'hidden' }}>
+                          {mission.avatar ? <img src={mission.avatar} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <User size={16} style={{ margin: '6px' }} />}
                         </div>
-                        <span style={{ fontSize: '18px', fontWeight: 600 }}>{mission.user}</span>
+                        <span style={{ fontSize: '16px', fontWeight: 600 }}>{mission.user}</span>
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '16px', fontWeight: 500 }}>
-                        <ClipboardList size={18} /> {mission.category}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                        <ClipboardList size={14} /> {mission.category}
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '16px', fontWeight: 500 }}>
-                        <Clock size={18} /> {mission.duration}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                        <Clock size={14} /> {mission.duration}
                       </div>
                     </div>
                     {isActive && (
-                      <div className="ouvrir-panel">
-                        <ArrowRight size={28} />
-                        <span className="ouvrir-text">Ouvrir</span>
+                      <div className="ouvrir-panel" style={{ width: '100px' }}>
+                        <ArrowRight size={20} />
+                        <span className="ouvrir-text" style={{ fontSize: '14px' }}>Ouvrir</span>
                       </div>
                     )}
                   </div>
@@ -1278,8 +1237,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <DecorativeBackground />
-      </main>
+        </main>
     );
   }
 
@@ -1345,18 +1303,18 @@ const Dashboard = () => {
     return (
       <main style={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#fff', position: 'relative', overflowY: 'auto', overflowX: 'hidden' }}>
         <Header showLogo={false} title="La Communauté" icon={<Users size={60} />} sticky={true} />
-        <div className="responsive-container" style={{ marginTop: '40px', paddingBottom: '120px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', zIndex: 5 }}>
-          <div style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column', gap: '48px' }}>
-            <section style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Aujourd'hui</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="responsive-container" style={{ marginTop: '20px', paddingBottom: '120px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', zIndex: 5 }}>
+          <div style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            <section style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Aujourd'hui</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {todayMessages.map((msg) => renderMessage(msg))}
               </div>
             </section>
 
-            <section style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Hier</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <section style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Hier</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {yesterdayMessages.map((msg) => renderMessage(msg))}
               </div>
             </section>
@@ -1424,12 +1382,12 @@ const Dashboard = () => {
                   boxShadow: isActive ? '0 0 0 4px #1a1a1a' : 'none'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{ color: '#1a1a1a' }}>{item.icon}</div>
-                  <h2 style={{ fontSize: '32px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{item.title}</h2>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ color: '#1a1a1a' }}>{React.cloneElement(item.icon as React.ReactElement, { size: 24 })}</div>
+                  <h2 style={{ fontSize: '24px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{item.title}</h2>
                 </div>
                 <p style={{ 
-                  fontSize: '18px', 
+                  fontSize: '14px', 
                   fontWeight: 500, 
                   color: '#4d4d4d', 
                   margin: 0,
@@ -1440,9 +1398,9 @@ const Dashboard = () => {
                 </p>
 
                 {isActive && (
-                  <div className="ouvrir-panel">
-                    <ArrowRight size={28} />
-                    <span className="ouvrir-text">Ouvrir</span>
+                  <div className="ouvrir-panel" style={{ width: '100px' }}>
+                    <ArrowRight size={20} />
+                    <span className="ouvrir-text" style={{ fontSize: '14px' }}>Ouvrir</span>
                   </div>
                 )}
               </div>
@@ -1477,7 +1435,6 @@ const Dashboard = () => {
       </div>
 
       {/* Decorative background curve */}
-      <DecorativeBackground />
     </main>
   );
 };
