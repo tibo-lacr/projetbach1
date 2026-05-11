@@ -238,7 +238,8 @@ const Onboarding = ({ onUnlock }: { onUnlock: () => void }) => {
         left: 0,
         width: '100%',
         height: '25vh',
-        backgroundColor: '#e6e6e6',
+        backgroundColor: '#ffffff',
+        borderTop: '6px solid #000000',
         clipPath: 'ellipse(100% 100% at 50% 100%)',
         zIndex: 1
       }}></div>
