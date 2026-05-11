@@ -2,9 +2,10 @@
 
 :root {
   --bg-color: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #333333;
-  --border-color: #e6e6e6;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --border-color: #000000;
+  --border-width: 3px;
   --font-family: 'DM Sans', sans-serif;
   
   --font-size-h1: 64px;
@@ -17,6 +18,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Disable transitions and animations for E-Ink */
+  transition: none !important;
+  animation: none !important;
 }
 
 body {
@@ -27,13 +31,15 @@ body {
   overflow-y: auto;
   width: 100vw;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .responsive-container {
   width: 100%;
-  max-width: 1244px;
+  max-width: 100%; /* Occupy full width for Boox */
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 60px;
 }
 
 #root {
@@ -43,31 +49,33 @@ body {
 
 .premium-card {
   background: #ffffff;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: 32px 40px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: var(--border-width) solid #000000;
+  border-radius: 16px;
+  padding: 40px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 24px;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  gap: 32px;
+  box-shadow: none; /* Avoid subtle shadows on E-Ink */
 }
 
-.premium-card:hover {
-  border-color: #000;
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  background: #fafafa;
+.premium-card:hover, .premium-card:focus {
+  background: #000000;
+  color: #ffffff;
+}
+
+.premium-card:hover span, .premium-card:focus span {
+  color: #ffffff;
 }
 
 .premium-card:active {
-  transform: translateY(0) scale(0.98);
+  background: #000000;
+  color: #ffffff;
 }
 
 .glass-effect {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border: var(--border-width) solid #000000;
 }
 
 .wave-background {
@@ -75,27 +83,39 @@ body {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 30%;
-  background: linear-gradient(180deg, rgba(230, 230, 230, 0) 0%, #f0f0f0 100%);
+  height: 25%;
+  background: #ffffff;
+  border-top: 6px solid #000000;
   border-radius: 100% 100% 0 0 / 100% 100% 0 0;
   z-index: -1;
 }
 
-/* Custom Scrollbar Styling */
+/* Custom Scrollbar Styling - High Contrast */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 20px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f9f9f9;
+  background: #ffffff;
+  border-left: 2px solid #000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ddd;
-  border-radius: 6px;
-  border: 3px solid #f9f9f9;
+  background: #000000;
+  border-radius: 0;
+  border: 4px solid #ffffff;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #1a1a1a;
+/* Specific Media Query for Boox Note Air2 Plus (1404x1872) */
+@media screen and (min-width: 1400px) and (max-width: 1410px) {
+  :root {
+    --font-size-h1: 72px;
+    --font-size-h3: 42px;
+    --font-size-h4: 32px;
+  }
+  
+  .responsive-container {
+    padding: 0 80px;
+  }
 }
+

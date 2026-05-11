@@ -22,13 +22,13 @@ const Logo = () => (
 const DecorativeBackground = () => (
   <div style={{
     position: 'fixed',
-    bottom: '-20vh',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    width: '200%',
-    height: '40vh',
-    backgroundColor: '#f2f2f2',
-    borderRadius: '50%',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: '25vh',
+    backgroundColor: '#ffffff',
+    borderTop: '6px solid #000000',
+    borderRadius: '100% 100% 0 0 / 100% 100% 0 0',
     zIndex: 1,
     pointerEvents: 'none'
   }} />
@@ -100,23 +100,23 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
       left: !sticky ? '50%' : 'auto',
       transform: !sticky ? 'translateX(-50%)' : 'none',
       zIndex: 20,
-      backgroundColor: sticky ? 'rgba(255, 255, 255, 0.9)' : 'transparent',
-      backdropFilter: sticky ? 'blur(10px)' : 'none',
-      borderBottom: sticky ? '1px solid #f0f0f0' : 'none',
-      maxWidth: '1600px' 
+      backgroundColor: sticky ? '#ffffff' : 'transparent',
+      borderBottom: sticky ? '4px solid #000000' : 'none',
+      maxWidth: '100%' 
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
         {showLogo && <Logo />}
         {showProfile && !title && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div style={{
-              width: '100px',
-              height: '100px',
+              width: '120px',
+              height: '120px',
               borderRadius: '50%',
               overflow: 'hidden',
-              backgroundColor: '#f0f0f0',
+              backgroundColor: '#ffffff',
               flexShrink: 0,
-              filter: 'grayscale(100%)'
+              border: '4px solid #000000',
+              filter: 'grayscale(100%) contrast(1.2)'
             }}>
               <img 
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&auto=format&fit=crop" 
@@ -124,13 +124,13 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
-            <h1 style={{ fontSize: '64px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>Léa</h1>
+            <h1 style={{ fontSize: '72px', fontWeight: 800, margin: 0, color: '#000000' }}>Léa</h1>
           </div>
         )}
         {title && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-             {icon || <ClipboardList size={60} />}
-             <h1 style={{ fontSize: '64px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{title}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+             {icon || <ClipboardList size={80} strokeWidth={2.5} />}
+             <h1 style={{ fontSize: '72px', fontWeight: 800, margin: 0, color: '#000000' }}>{title}</h1>
           </div>
         )}
       </div>
@@ -139,12 +139,12 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
         display: 'flex',
         gap: '48px',
         alignItems: 'center',
-        fontSize: '28px',
-        fontWeight: 500,
-        color: '#333'
+        fontSize: '32px',
+        fontWeight: 700,
+        color: '#000000'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {weather ? getWeatherIcon(weather.code) : <Sun size={32} />}
+          {weather ? getWeatherIcon(weather.code) : <Sun size={40} />}
           <span>{weather ? `${weather.temp}°` : '...'}</span>
         </div>
         <span style={{ textTransform: 'capitalize' }}>{formattedDate}</span>
@@ -597,8 +597,7 @@ const Dashboard = () => {
                             alignItems: 'center', 
                             justifyContent: 'center',
                             padding: '0 24px',
-                            gap: '16px',
-                            transition: 'all 0.3s'
+                            gap: '16px'
                           }}>
                             {!isPlaying ? (
                               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
@@ -799,7 +798,7 @@ const Dashboard = () => {
               flexDirection: 'column', 
               gap: '12px', 
               width: '100%',
-              transition: 'all 0.2s'
+              transition: 'none'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -822,7 +821,7 @@ const Dashboard = () => {
               alignItems: 'center', 
               justifyContent: 'center', 
               gap: '32px',
-              transition: 'all 0.3s'
+              transition: 'none'
             }}>
               {isPlayingVoice ? <Pause size={32} color="white" fill="white" /> : <Play size={32} color="white" fill="white" />}
               
@@ -1196,7 +1195,7 @@ const Dashboard = () => {
                       position: 'relative',
                       width: '100%',
                       boxShadow: isActive ? '0 0 0 4px #1a1a1a' : 'none',
-                      transition: 'all 0.1s ease-out'
+                      transition: 'none'
                     }}
                   >
                     <h3 style={{ fontSize: '28px', fontWeight: 700, margin: 0 }}>{mission.title}</h3>
@@ -1244,7 +1243,7 @@ const Dashboard = () => {
                       position: 'relative',
                       width: '100%',
                       boxShadow: isActive ? '0 0 0 4px #1a1a1a' : 'none',
-                      transition: 'all 0.1s ease-out'
+                      transition: 'none'
                     }}
                   >
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -1419,7 +1418,7 @@ const Dashboard = () => {
                   borderColor: isActive ? '#1a1a1a' : '#ccc',
                   backgroundColor: isActive ? '#e6e6e6' : '#fff',
                   position: 'relative',
-                  transition: 'all 0.1s ease-out',
+                  transition: 'none',
                   width: '100%',
                   boxShadow: isActive ? '0 0 0 4px #1a1a1a' : 'none'
                 }}
@@ -1515,12 +1514,8 @@ function App() {
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
-      * {
-        cursor: none !important;
-      }
       body {
-        pointer-events: none !important;
-        overflow: hidden !important;
+        overflow-y: auto !important;
       }
       .responsive-container {
         width: 100%;
@@ -1551,12 +1546,11 @@ function App() {
       
       .vibe-focused {
         outline: none !important;
-        border-color: #1a1a1a !important;
-        background-color: #e6e6e6 !important;
-        box-shadow: 0 0 0 4px #1a1a1a !important;
+        border-color: #000 !important;
+        background-color: #f2f2f2 !important;
+        box-shadow: 0 0 0 6px #000 !important;
         z-index: 50;
         position: relative !important;
-        transform: scale(1.02) !important;
       }
 
       .vibe-message-item.vibe-focused {
@@ -1586,7 +1580,8 @@ function App() {
       }
 
       .voice-bar-animating {
-        animation: voiceBar 0.5s ease-in-out infinite;
+        /* Static highlight for E-Ink instead of animation */
+        background-color: #000 !important;
       }
 
       .ouvrir-panel {
@@ -1647,80 +1642,9 @@ function App() {
     `;
     document.head.appendChild(style);
 
-    let currentIndex = 0;
-    
-    const getInteractiveElements = () => {
-      const elements = Array.from(document.querySelectorAll(
-        '.vibe-nav-item, button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )) as HTMLElement[];
-      
-      return elements.filter(el => {
-        const rect = el.getBoundingClientRect();
-        const computed = window.getComputedStyle(el);
-        return rect.width > 0 && rect.height > 0 && computed.visibility !== 'hidden' && computed.opacity !== '0' && computed.display !== 'none';
-      });
-    };
 
-    const updateFocus = (elements: HTMLElement[]) => {
-      document.querySelectorAll('.vibe-focused').forEach(el => el.classList.remove('vibe-focused'));
-      
-      if (elements.length === 0) return;
-      if (currentIndex >= elements.length) currentIndex = elements.length - 1;
-      if (currentIndex < 0) currentIndex = 0;
 
-      const target = elements[currentIndex];
-      target.classList.add('vibe-focused');
-      
-      // Use preventScroll: true to avoid browser's default jump
-      target.focus({ preventScroll: true }); 
-      
-      // Only scroll if the container is meant to be scrollable (overflowY !== 'hidden')
-      const mainContainer = target.closest('main');
-      const computedStyle = mainContainer ? window.getComputedStyle(mainContainer) : null;
-      const isScrollable = computedStyle ? (computedStyle.overflowY !== 'hidden' && computedStyle.overflow !== 'hidden') : true;
-      
-      if (isScrollable) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    };
 
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const elements = getInteractiveElements();
-      if (elements.length === 0) return;
-
-      if (e.deltaY > 0) {
-        currentIndex = (currentIndex + 1) % elements.length;
-      } else if (e.deltaY < 0) {
-        currentIndex = (currentIndex - 1 + elements.length) % elements.length;
-      }
-      updateFocus(elements);
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      if (e.isTrusted) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        if (e.button === 0) {
-          const elements = getInteractiveElements();
-          if (currentIndex >= 0 && currentIndex < elements.length) {
-            const target = elements[currentIndex];
-            target.style.transform = 'scale(0.98)';
-            setTimeout(() => target.style.transform = '', 100);
-            target.click();
-            
-            setTimeout(() => {
-              const newElements = getInteractiveElements();
-              updateFocus(newElements);
-            }, 100);
-          }
-        } else if (e.button === 2) {
-          window.dispatchEvent(new CustomEvent('vibe-back', { cancelable: true }));
-        }
-      }
-    };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'b') {
@@ -1728,26 +1652,11 @@ function App() {
       }
     };
 
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-    };
 
-    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-    window.addEventListener('mousedown', handleMouseDown, { capture: true });
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('contextmenu', handleContextMenu, { capture: true });
-
-    setTimeout(() => {
-      const elements = getInteractiveElements();
-      updateFocus(elements);
-    }, 500);
 
     return () => {
       document.head.removeChild(style);
-      window.removeEventListener('wheel', handleWheel, { capture: true });
-      window.removeEventListener('mousedown', handleMouseDown, { capture: true });
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('contextmenu', handleContextMenu, { capture: true });
     };
   }, []);
 
