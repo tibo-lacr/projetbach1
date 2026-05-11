@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Smartphone, Nfc, Sun, Cloud, CloudRain, CloudSnow, CloudLightning, History, ClipboardList, Map, Users, ArrowRight, LogOut, Lock, Clock, ChevronLeft, User, MapPin, Info, Play, Pause, CheckCircle2, HelpCircle, Mic, ArrowRightCircle } from 'lucide-react';
+import { Smartphone, Nfc, Sun, Cloud, CloudRain, CloudSnow, CloudLightning, History, ClipboardList, Map, Users, ArrowRight, LogOut, Lock, Clock, User, MapPin, Info, Play, Pause, CheckCircle2, HelpCircle, Mic, ArrowRightCircle } from 'lucide-react';
 
 const Logo = () => (
   <div style={{
@@ -433,7 +433,7 @@ const Dashboard = () => {
   const [playbackTime, setPlaybackTime] = useState(34);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: any;
     if (isPlayingVoice) {
       timer = setInterval(() => {
         setPlaybackTime(prev => {
@@ -451,7 +451,7 @@ const Dashboard = () => {
   }, [isPlayingVoice]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: any;
     if (isRecording) {
       interval = setInterval(() => {
         setRecordingDuration(prev => prev + 1);
@@ -1298,7 +1298,7 @@ const Dashboard = () => {
     const todayMessages = allMessages.filter(m => m.section === 'today');
     const yesterdayMessages = allMessages.filter(m => m.section === 'yesterday');
 
-    const renderMessage = (msg: typeof allMessages[0], globalIdx: number) => (
+    const renderMessage = (msg: typeof allMessages[0]) => (
       <div
         key={msg.id}
         tabIndex={0}
@@ -1350,14 +1350,14 @@ const Dashboard = () => {
             <section style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Aujourd'hui</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {todayMessages.map((msg, i) => renderMessage(msg, i))}
+                {todayMessages.map((msg) => renderMessage(msg))}
               </div>
             </section>
 
             <section style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Hier</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {yesterdayMessages.map((msg, i) => renderMessage(msg, todayMessages.length + i))}
+                {yesterdayMessages.map((msg) => renderMessage(msg))}
               </div>
             </section>
           </div>
