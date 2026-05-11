@@ -32,7 +32,6 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        // Nantes Coordinates: Latitude 47.2184, Longitude -1.5536
         const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=47.2184&longitude=-1.5536&current=temperature_2m,weather_code');
         const data = await response.json();
         if (data && data.current) {
@@ -47,7 +46,7 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
     };
 
     fetchWeather();
-    const weatherTimer = setInterval(fetchWeather, 1800000); // Update every 30 minutes
+    const weatherTimer = setInterval(fetchWeather, 1800000);
     return () => clearInterval(weatherTimer);
   }, []);
 
@@ -63,14 +62,13 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
   });
 
   const getWeatherIcon = (code: number) => {
-    // Open-Meteo WMO Weather interpretation codes
-    if (code === 0) return <Sun size={32} />; // Clear sky
-    if (code >= 1 && code <= 3) return <Cloud size={32} />; // Mainly clear, partly cloudy, and overcast
-    if (code >= 51 && code <= 67) return <CloudRain size={32} />; // Drizzle and Rain
-    if (code >= 80 && code <= 82) return <CloudRain size={32} />; // Rain showers
-    if (code >= 71 && code <= 77) return <CloudSnow size={32} />; // Snow fall
-    if (code >= 95) return <CloudLightning size={32} />; // Thunderstorm
-    return <Cloud size={32} />; // Default to cloud
+    if (code === 0) return <Sun size={32} />;
+    if (code >= 1 && code <= 3) return <Cloud size={32} />;
+    if (code >= 51 && code <= 67) return <CloudRain size={32} />;
+    if (code >= 80 && code <= 82) return <CloudRain size={32} />;
+    if (code >= 71 && code <= 77) return <CloudSnow size={32} />;
+    if (code >= 95) return <CloudLightning size={32} />;
+    return <Cloud size={32} />;
   };
 
   return (
@@ -78,30 +76,29 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingTop: '20px',
-      paddingBottom: '20px',
+      paddingTop: 'var(--space-md)',
+      paddingBottom: 'var(--space-md)',
       width: '100%',
       position: sticky ? 'sticky' : 'absolute',
       top: 0,
       left: !sticky ? '50%' : 'auto',
       transform: !sticky ? 'translateX(-50%)' : 'none',
       zIndex: 20,
-      backgroundColor: sticky ? '#ffffff' : 'transparent',
-      borderBottom: sticky ? '4px solid #000000' : 'none',
-      maxWidth: '100%' 
+      backgroundColor: sticky ? 'var(--bg-color)' : 'transparent',
+      borderBottom: sticky ? 'var(--border-width) solid var(--border-color)' : 'none'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
         {showLogo && <Logo />}
         {showProfile && !title && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
             <div style={{
-              width: '80px',
-              height: '80px',
+              width: 'clamp(48px, 6vw, 80px)',
+              height: 'clamp(48px, 6vw, 80px)',
               borderRadius: '50%',
               overflow: 'hidden',
               backgroundColor: '#ffffff',
               flexShrink: 0,
-              border: '3px solid #000000',
+              border: '2px solid #000',
               filter: 'grayscale(100%) contrast(1.2)'
             }}>
               <img 
@@ -110,27 +107,26 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
-            <h1 style={{ fontSize: '40px', fontWeight: 800, margin: 0, color: '#000000' }}>Léa</h1>
+            <h1 style={{ fontSize: 'var(--fs-xl)', fontWeight: 800, margin: 0 }}>Léa</h1>
           </div>
         )}
         {title && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-             {icon ? React.cloneElement(icon as React.ReactElement, { size: 48 }) : <ClipboardList size={48} strokeWidth={2.5} />}
-             <h1 style={{ fontSize: '40px', fontWeight: 800, margin: 0, color: '#000000' }}>{title}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+             {icon ? React.cloneElement(icon as React.ReactElement, { size: 32 }) : <ClipboardList size={32} strokeWidth={2.5} />}
+             <h1 style={{ fontSize: 'var(--fs-xl)', fontWeight: 800, margin: 0 }}>{title}</h1>
           </div>
         )}
       </div>
       
       <div style={{
         display: 'flex',
-        gap: '32px',
+        gap: 'var(--space-md)',
         alignItems: 'center',
-        fontSize: '20px',
-        fontWeight: 700,
-        color: '#000000'
+        fontSize: 'var(--fs-sm)',
+        fontWeight: 700
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {weather ? React.cloneElement(getWeatherIcon(weather.code) as React.ReactElement, { size: 28 }) : <Sun size={28} />}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+          {weather ? React.cloneElement(getWeatherIcon(weather.code) as React.ReactElement, { size: 24 }) : <Sun size={24} />}
           <span>{weather ? `${weather.temp}°` : '...'}</span>
         </div>
         <span style={{ textTransform: 'capitalize' }}>{formattedDate}</span>
@@ -150,35 +146,30 @@ const Onboarding = ({ onUnlock }: { onUnlock: () => void }) => {
       justifyContent: 'center',
       position: 'relative',
       overflow: 'hidden',
-      backgroundColor: '#fff'
+      backgroundColor: 'var(--bg-color)'
     }}>
       <Header />
       
-      <div style={{ 
+      <div className="responsive-container" style={{ 
         textAlign: 'center', 
-        width: '100%',
-        maxWidth: '859px', // Width from Figma for the title
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         zIndex: 5,
-        gap: '80px' // Gap between title block and tags block
+        gap: 'var(--space-xl)'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
           <p style={{
-            fontSize: '24px',
+            fontSize: 'var(--fs-lg)',
             fontWeight: 600,
-            color: '#333',
+            color: 'var(--text-secondary)',
             margin: 0
           }}>
             Salut ! Prêt à jardiner ?
           </p>
           <h1 style={{
-            fontSize: '40px',
-            fontWeight: 700,
-            color: '#000',
-            letterSpacing: '-0.02em',
-            lineHeight: 1,
+            fontSize: 'var(--fs-3xl)',
+            fontWeight: 800,
             margin: 0
           }}>
             Identifie-toi pour commencer
@@ -187,36 +178,36 @@ const Onboarding = ({ onUnlock }: { onUnlock: () => void }) => {
 
         <div style={{
           width: '100%',
+          maxWidth: '800px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px'
+          gap: 'var(--space-md)'
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '100px', padding: '0 32px' }}>
-              <Nfc size={32} strokeWidth={2} />
-              <span style={{ fontSize: '24px', fontWeight: 600 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', width: '100%' }}>
+            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', padding: 'var(--space-md) var(--space-lg)' }}>
+              <Nfc size={40} strokeWidth={2} />
+              <span style={{ fontSize: 'var(--fs-xl)', fontWeight: 600 }}>
                 Passer mon Badge
               </span>
             </div>
-            <p style={{ fontSize: '16px', color: '#1a1a1a', fontWeight: 500, margin: 0, textAlign: 'left', width: '100%' }}>
+            <p style={{ fontSize: 'var(--fs-sm)', fontWeight: 500, margin: 0, textAlign: 'left' }}>
               Pose ton badge contre le capteur noir sur le flanc droit de la borne.
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '100px', padding: '0 32px' }}>
-              <Smartphone size={32} strokeWidth={2} />
-              <span style={{ fontSize: '24px', fontWeight: 600 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', width: '100%' }}>
+            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', padding: 'var(--space-md) var(--space-lg)' }}>
+              <Smartphone size={40} strokeWidth={2} />
+              <span style={{ fontSize: 'var(--fs-xl)', fontWeight: 600 }}>
                 Détection mobile
               </span>
             </div>
-            <p style={{ fontSize: '16px', color: '#1a1a1a', fontWeight: 500, margin: 0, textAlign: 'left', width: '100%' }}>
+            <p style={{ fontSize: 'var(--fs-sm)', fontWeight: 500, margin: 0, textAlign: 'left' }}>
               Appuie sur « Je suis au jardin » dans ton application pour déverrouiller la borne.
             </p>
           </div>
         </div>
       </div>
-
     </main>
   );
 };
@@ -236,7 +227,7 @@ const Transition = ({ onComplete }: { onComplete: () => void }) => {
       justifyContent: 'center',
       position: 'relative',
       overflow: 'hidden',
-      backgroundColor: '#fff'
+      backgroundColor: 'var(--bg-color)'
     }}>
       <Header />
       
@@ -246,29 +237,11 @@ const Transition = ({ onComplete }: { onComplete: () => void }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '12px'
+        gap: 'var(--space-sm)'
       }}>
-        <h1 style={{
-          fontSize: '40px',
-          fontWeight: 700,
-          color: '#1a1a1a',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          margin: 0
-        }}>
-          Connexion réussie !
-        </h1>
-        <p style={{
-          fontSize: '24px',
-          fontWeight: 600,
-          color: '#333',
-          margin: 0
-        }}>
-          Ravi de te revoir, Léa
-        </p>
+        <h1 style={{ fontSize: 'var(--fs-2xl)', margin: 0 }}>Connexion réussie !</h1>
+        <p style={{ fontSize: 'var(--fs-lg)', fontWeight: 600, margin: 0 }}>Ravi de te revoir, Léa</p>
       </div>
-
-      {/* Bottom decorative ellipse from Figma */}
     </main>
   );
 };
@@ -487,7 +460,7 @@ const Dashboard = () => {
         height: '100vh', 
         display: 'flex', 
         flexDirection: 'column', 
-        backgroundColor: '#fff', 
+        backgroundColor: 'var(--bg-color)', 
         position: 'relative',
         overflowY: 'auto',
         overflowX: 'hidden'
@@ -495,18 +468,18 @@ const Dashboard = () => {
         <Header showLogo={false} title="Le Journal" icon={<History size={60} />} sticky={true} />
         
         <div className="responsive-container" style={{ 
-          marginTop: '110px',
+          marginTop: 'var(--space-xl)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '48px',
+          gap: 'var(--space-lg)',
           width: '100%',
           zIndex: 5,
-          paddingBottom: '120px'
+          paddingBottom: 'var(--space-xl)'
         }}>
           {journalData.map((section, sIdx) => (
-              <div key={sIdx} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>{section.date}</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div key={sIdx} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+                <h2 style={{ margin: 0 }}>{section.date}</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
                   {section.items.map((item, iIdx) => {
                     const globalIdx = focusableItems.findIndex(fi => fi.title === item.title && fi.time === item.time && fi.sectionDate === section.date);
                     const itemId = `${section.date}-${item.title}-${item.time}`;
@@ -526,67 +499,66 @@ const Dashboard = () => {
                           }
                         }}
                         style={{ 
-                          backgroundColor: isFocused ? '#e6e6e6' : '#fff', 
-                          border: '2px solid', 
-                          borderColor: isFocused ? '#1a1a1a' : '#ccc',
+                          backgroundColor: isFocused ? 'var(--accent-bg)' : 'var(--bg-color)', 
+                          border: 'var(--border-width) solid', 
+                          borderColor: isFocused ? 'var(--border-color)' : '#ccc',
                           borderRadius: '8px', 
                           overflow: 'hidden',
                           display: 'flex',
-                          transition: 'all 0.1s ease-out',
-                          boxShadow: isFocused ? '0 0 0 4px #1a1a1a' : 'none'
+                          boxShadow: isFocused ? '0 0 0 4px var(--border-color)' : 'none'
                         }}
                       >
-                        <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                            <span style={{ fontSize: '14px', color: '#666', fontWeight: 500 }}>{item.time}</span>
-                            <span style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a' }}>{item.title}</span>
+                        <div style={{ padding: 'var(--space-md)', flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+                          <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center' }}>
+                            <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>{item.time}</span>
+                            <span style={{ fontSize: 'var(--fs-lg)', fontWeight: 700 }}>{item.title}</span>
                           </div>
-                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                            <img src={item.avatar} alt="" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
-                            <span style={{ fontSize: '16px', fontWeight: 600, color: '#1a1a1a' }}>{item.author}</span>
+                          <div style={{ display: 'flex', gap: 'var(--space-xs)', alignItems: 'center' }}>
+                            <img src={item.avatar} alt="" style={{ width: 'clamp(32px, 4vw, 48px)', height: 'clamp(32px, 4vw, 48px)', borderRadius: '50%', objectFit: 'cover' }} />
+                            <span style={{ fontSize: 'var(--fs-base)', fontWeight: 600 }}>{item.author}</span>
                           </div>
                           {item.hasVoice && (
                             <div style={{ 
                               alignSelf: 'flex-start',
                               border: '1px solid #ccc', 
-                              borderRadius: '8px', 
-                              padding: '6px 10px', 
+                              borderRadius: '4px', 
+                              padding: '4px 8px', 
                               display: 'flex', 
                               alignItems: 'center', 
                               gap: '8px',
                               backgroundColor: '#fff'
                             }}>
                               <Mic size={14} />
-                              <span style={{ fontSize: '12px', fontWeight: 600 }}>Note vocale ajoutée</span>
+                              <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 600 }}>Note vocale ajoutée</span>
                             </div>
                           )}
                         </div>
 
                         {isFocused && item.hasVoice && (
                           <div style={{ 
-                            width: '320px', 
-                            backgroundColor: '#1a1a1a', 
+                            width: 'clamp(200px, 25vw, 320px)', 
+                            backgroundColor: 'var(--border-color)', 
                             display: 'flex', 
                             flexDirection: 'column',
                             alignItems: 'center', 
                             justifyContent: 'center',
-                            padding: '0 24px',
-                            gap: '16px'
+                            padding: 'var(--space-md)',
+                            gap: 'var(--space-sm)'
                           }}>
                             {!isPlaying ? (
-                              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-xs)' }}>
                                 <Play size={40} color="white" fill="white" />
-                                <span style={{ color: 'white', fontSize: '18px', fontWeight: 700 }}>Écouter</span>
+                                <span style={{ color: 'white', fontSize: 'var(--fs-base)', fontWeight: 700 }}>Écouter</span>
                               </div>
                             ) : (
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', width: '100%' }}>
                                 <Pause size={24} color="white" fill="white" />
-                                <div style={{ flex: 1, display: 'flex', gap: '3px', alignItems: 'center', height: '32px' }}>
+                                <div style={{ flex: 1, display: 'flex', gap: '2px', alignItems: 'center', height: '24px' }}>
                                   {[10, 20, 15, 25, 32, 28, 32, 25, 15, 10, 6, 20, 30, 18, 12].map((h, i) => (
-                                    <div key={i} className="voice-bar-animating" style={{ height: `${h}px`, width: '3px', backgroundColor: '#fff', borderRadius: '2px', animationDelay: `${i * 0.05}s` }} />
+                                    <div key={i} className="voice-bar-animating" style={{ height: `${h * 0.75}px`, width: '3px', backgroundColor: '#fff', borderRadius: '2px' }} />
                                   ))}
                                 </div>
-                                <span style={{ color: 'white', fontSize: '16px', fontWeight: 600 }}>0:34</span>
+                                <span style={{ color: 'white', fontSize: 'var(--fs-sm)', fontWeight: 600 }}>0:34</span>
                               </div>
                             )}
                           </div>
@@ -608,7 +580,7 @@ const Dashboard = () => {
         height: '100vh', 
         display: 'flex', 
         flexDirection: 'column', 
-        backgroundColor: '#fff', 
+        backgroundColor: 'var(--bg-color)', 
         position: 'relative',
         overflowY: 'auto',
         overflowX: 'hidden'
@@ -616,65 +588,64 @@ const Dashboard = () => {
         <Header showLogo={false} title="Le Plan" icon={<Map size={60} />} sticky={true} />
         
         <div className="responsive-container" style={{ 
-          marginTop: '110px',
+          marginTop: 'var(--space-xl)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '48px',
+          gap: 'var(--space-lg)',
           width: '100%',
           zIndex: 5,
-          paddingBottom: '120px'
+          paddingBottom: 'var(--space-xl)'
         }}>
           {planData.map((parcel, idx) => {
             const isFocused = idx === selectedPlanIndex;
             return (
-              <div key={parcel.id} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Parcelle n°{parcel.number}</h2>
+              <div key={parcel.id} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+                <h2 style={{ margin: 0 }}>Parcelle n°{parcel.number}</h2>
                 <div 
                   className="vibe-nav-item"
                   tabIndex={0}
                   onFocus={() => setSelectedPlanIndex(idx)}
                   style={{ 
-                    backgroundColor: isFocused ? '#e6e6e6' : '#fff', 
-                    border: '2px solid', 
-                    borderColor: isFocused ? '#1a1a1a' : '#ccc',
+                    backgroundColor: isFocused ? 'var(--accent-bg)' : 'var(--bg-color)', 
+                    border: 'var(--border-width) solid', 
+                    borderColor: isFocused ? 'var(--border-color)' : '#ccc',
                     borderRadius: '8px', 
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '24px',
-                    gap: '16px',
-                    transition: 'all 0.1s ease-out',
-                    boxShadow: isFocused ? '0 0 0 4px #1a1a1a' : 'none'
+                    padding: 'var(--space-md)',
+                    gap: 'var(--space-sm)',
+                    boxShadow: isFocused ? '0 0 0 4px var(--border-color)' : 'none'
                   }}
                 >
-                  <div style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a' }}>{parcel.content}</div>
+                  <div style={{ fontSize: 'var(--fs-xl)', fontWeight: 700 }}>{parcel.content}</div>
                   
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '16px', fontWeight: 500, color: '#333' }}>Dernière activité</span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <img src={parcel.avatar} alt="" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
-                      <span style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a' }}>{parcel.lastActivityUser}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                    <span style={{ fontSize: 'var(--fs-base)', fontWeight: 500, color: 'var(--text-secondary)' }}>Dernière activité</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                      <img src={parcel.avatar} alt="" style={{ width: 'clamp(32px, 4vw, 40px)', height: 'clamp(32px, 4vw, 40px)', borderRadius: '50%', objectFit: 'cover' }} />
+                      <span style={{ fontSize: 'var(--fs-base)', fontWeight: 700 }}>{parcel.lastActivityUser}</span>
                     </div>
                   </div>
 
                   <div style={{ 
                     display: 'flex', 
                     alignItems: 'center', 
-                    gap: '8px', 
+                    gap: 'var(--space-xs)', 
                     padding: '8px 16px', 
                     backgroundColor: '#fff', 
-                    border: '2px solid #ccc', 
-                    borderRadius: '8px',
+                    border: '1px solid #ccc', 
+                    borderRadius: '4px',
                     alignSelf: 'flex-start'
                   }}>
-                    {parcel.status === 'Privé' ? <Lock size={18} style={{ color: '#666' }} /> : <Users size={18} />}
-                    <span style={{ fontSize: '14px', fontWeight: 700 }}>{parcel.status}{parcel.owner ? ` : ${parcel.owner}` : ''}</span>
+                    {parcel.status === 'Privé' ? <Lock size={16} style={{ color: '#666' }} /> : <Users size={16} />}
+                    <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700 }}>{parcel.status}{parcel.owner ? ` : ${parcel.owner}` : ''}</span>
                   </div>
                 </div>
               </div>
             );
           })}
         </div>
-        </main>
+      </main>
     );
   }
 
@@ -684,71 +655,72 @@ const Dashboard = () => {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#fff',
+        backgroundColor: 'var(--bg-color)',
         position: 'relative',
         overflow: 'hidden'
       }}>
         <Header showLogo={false} title="Les Missions" sticky={true} />
         
         <div className="responsive-container" style={{
-          marginTop: '20px',
+          marginTop: 'var(--space-md)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
+          gap: 'var(--space-md)',
           width: '100%',
           zIndex: 5,
-          paddingBottom: '40px',
+          paddingBottom: 'var(--space-md)',
           flex: 1,
-          overflow: 'hidden' // Ensure the container itself doesn't scroll internally
+          overflow: 'hidden'
         }}>
-          <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', width: '738px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Soin des rosiers</h1>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <MapPin size={24} color="#1a1a1a" />
-                    <span style={{ fontSize: '18px', fontWeight: 500, color: '#1a1a1a' }}>Parcelle n°1</span>
+          <div style={{ display: 'flex', gap: 'var(--space-md)', width: '100%', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', flex: '1 1 600px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                  <h1 style={{ margin: 0 }}>Soin des rosiers</h1>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                    <MapPin size={24} />
+                    <span style={{ fontSize: 'var(--fs-lg)', fontWeight: 500 }}>Parcelle n°1</span>
                   </div>
                 </div>
                 
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #e6e6e6', borderRadius: '8px' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', padding: '6px 12px', backgroundColor: '#fff', border: '1px solid #e6e6e6', borderRadius: '4px' }}>
                     <ClipboardList size={18} />
-                    <span style={{ fontSize: '14px', fontWeight: 600 }}>Entretien</span>
+                    <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 600 }}>Entretien</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#fff', border: '2px solid #e6e6e6', borderRadius: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', padding: '6px 12px', backgroundColor: '#fff', border: '1px solid #e6e6e6', borderRadius: '4px' }}>
                     <Clock size={18} />
-                    <span style={{ fontSize: '14px', fontWeight: 600 }}>10min</span>
+                    <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 600 }}>10min</span>
                   </div>
                 </div>
               </div>
 
               <div style={{ 
-                backgroundColor: '#e6e6e6', 
-                padding: '20px 24px', 
+                backgroundColor: 'var(--accent-bg)', 
+                padding: 'var(--space-md)', 
                 borderRadius: '8px', 
                 display: 'flex', 
-                gap: '12px', 
+                gap: 'var(--space-sm)', 
                 alignItems: 'flex-start' 
               }}>
                 <div style={{ 
                   backgroundColor: '#808080', 
                   padding: '6px', 
-                  borderRadius: '8px', 
+                  borderRadius: '4px', 
                   display: 'flex', 
                   alignItems: 'center', 
-                  justifyContent: 'center' 
+                  justifyContent: 'center',
+                  flexShrink: 0
                 }}>
                   <Info size={18} color="white" />
                 </div>
-                <p style={{ fontSize: '16px', fontWeight: 500, color: '#1a1a1a', margin: 0, lineHeight: 1.3 }}>
+                <p style={{ fontSize: 'var(--fs-md)', fontWeight: 500, margin: 0, color: 'var(--text-primary)' }}>
                   Utiliser le spray au savon noir sur les feuilles de la parcelle n°4
                 </p>
               </div>
             </div>
 
-            <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', height: '280px', border: '2px solid #e6e6e6' }}>
+            <div style={{ flex: '1 1 300px', borderRadius: '8px', overflow: 'hidden', height: 'clamp(200px, 30vh, 280px)', border: '2px solid #e6e6e6' }}>
               <img 
                 src="/rosier.png" 
                 alt="Rose Garden" 
@@ -764,42 +736,40 @@ const Dashboard = () => {
             onClick={() => setIsPlayingVoice(!isPlayingVoice)}
             style={{ 
               backgroundColor: '#fff', 
-              border: '4px solid #ccc', 
+              border: 'var(--border-width) solid #ccc', 
               borderRadius: '8px', 
-               padding: '16px 24px', 
+              padding: 'var(--space-md)', 
               display: 'flex', 
               flexDirection: 'column', 
-              gap: '12px', 
-              width: '100%',
-              transition: 'none'
+              gap: 'var(--space-sm)', 
+              width: '100%'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '50%', overflow: 'hidden', backgroundColor: '#f0f0f0', filter: 'grayscale(100%)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                <div style={{ width: 'clamp(32px, 4vw, 48px)', height: 'clamp(32px, 4vw, 48px)', borderRadius: '50%', overflow: 'hidden', backgroundColor: '#f0f0f0', filter: 'grayscale(100%)' }}>
                   <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop" alt="Daniel" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
-                <span style={{ fontSize: '18px', fontWeight: 600, color: '#1a1a1a' }}>Daniel.P</span>
+                <span style={{ fontSize: 'var(--fs-lg)', fontWeight: 600 }}>Daniel.P</span>
               </div>
-              <div style={{ display: 'flex', gap: '10px', fontSize: '14px', fontWeight: 500, color: '#1a1a1a' }}>
+              <div style={{ display: 'flex', gap: 'var(--space-xs)', fontSize: 'var(--fs-xs)', fontWeight: 500 }}>
                 <span>12/01/26</span>
                 <span>16:03</span>
               </div>
             </div>
             <div style={{ 
-              backgroundColor: isPlayingVoice ? '#1a1a1a' : '#808080', 
-              height: '60px', 
+              backgroundColor: isPlayingVoice ? 'var(--text-primary)' : '#808080', 
+              height: '50px', 
               borderRadius: '4px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center', 
-              gap: '24px',
-              transition: 'none'
+              gap: 'var(--space-md)'
             }}>
               {isPlayingVoice ? <Pause size={24} color="white" fill="white" /> : <Play size={24} color="white" fill="white" />}
               
               {isPlayingVoice && (
-                <div style={{ display: 'flex', gap: '3px', alignItems: 'center', height: '24px' }}>
+                <div style={{ display: 'flex', gap: '2px', alignItems: 'center', height: '20px' }}>
                   {[10, 14, 22, 25, 32, 42, 29, 32, 29, 48, 32, 21, 28, 32, 32, 15, 6, 25, 35, 48, 20, 17, 12, 8].map((height, i, arr) => {
                     const progress = (34 - playbackTime) / 34;
                     const barProgress = i / arr.length;
@@ -808,11 +778,11 @@ const Dashboard = () => {
                     return (
                       <div 
                         key={i} 
-                        className={`voice-bar ${isPlayingVoice ? 'voice-bar-animating' : ''}`} 
                         style={{ 
-                          height: `${height * 0.5}px`,
+                          width: '2px',
+                          height: `${height * 0.4}px`,
                           backgroundColor: isFilled ? '#fff' : '#999',
-                          animationDelay: `${i * 0.05}s`
+                          borderRadius: '1px'
                         }} 
                       />
                     );
@@ -820,48 +790,48 @@ const Dashboard = () => {
                 </div>
               )}
 
-              <span style={{ fontSize: '16px', fontWeight: 600, color: '#fff', minWidth: '60px' }}>
+              <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 600, color: '#fff', minWidth: '50px' }}>
                 {isPlayingVoice ? `0:${playbackTime.toString().padStart(2, '0')}` : "0:34"}
               </span>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div style={{ display: 'flex', gap: '12px', width: '100%', justifyContent: 'flex-end', marginTop: 'auto' }}>
+          <div style={{ display: 'flex', gap: 'var(--space-sm)', width: '100%', justifyContent: 'flex-end', marginTop: 'auto' }}>
             <div className="vibe-nav-item vibe-dark-btn" tabIndex={0} onClick={() => setCurrentView('mission_success')} style={{ 
-              backgroundColor: '#1a1a1a', 
-              color: 'white',
+              backgroundColor: 'var(--text-primary)', 
+              color: 'var(--bg-color)', 
               padding: '12px 20px', 
               borderRadius: '8px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              gap: '12px',
+              gap: 'var(--space-xs)',
               border: '2px solid transparent'
             }}>
-              <span style={{ fontSize: '14px', fontWeight: 600 }}>Mission réussie</span>
+              <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 600 }}>Mission réussie</span>
               <CheckCircle2 size={16} />
             </div>
             <div className="vibe-nav-item" tabIndex={0} style={{ 
-              backgroundColor: '#fff', 
-              color: '#1a1a1a', 
+              backgroundColor: 'var(--bg-color)', 
+              color: 'var(--text-primary)', 
               padding: '12px 20px', 
               borderRadius: '8px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              gap: '10px',
+              gap: 'var(--space-xs)',
               border: '2px solid #ccc'
             }}>
-              <span style={{ fontSize: '14px', fontWeight: 600 }}>Besoin d'aide</span>
+              <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 600 }}>Besoin d'aide</span>
               <HelpCircle size={16} />
             </div>
           </div>
         </div>
-
-        </main>
+      </main>
     );
   }
+
 
     if (currentView === 'mission_success') {
       return (
@@ -1111,35 +1081,34 @@ const Dashboard = () => {
       );
     }
 
-    if (currentView === 'missions') {
+  if (currentView === 'missions') {
     return (
-      <main style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#fff',
+      <main style={{ 
+        height: '100vh', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        backgroundColor: 'var(--bg-color)', 
         position: 'relative',
-        overflowX: 'hidden',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        overflowX: 'hidden'
       }}>
-        <Header showLogo={false} title="Les Missions" sticky={true} />
+        <Header showLogo={false} title="Les Missions" icon={<ClipboardList size={60} />} sticky={true} />
         
-        <div className="responsive-container" style={{
-          marginTop: '110px',
+        <div className="responsive-container" style={{ 
+          marginTop: 'var(--space-xl)',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          gap: '48px',
+          gap: 'var(--space-xl)',
           width: '100%',
           zIndex: 5,
-          paddingBottom: '120px'
+          paddingBottom: 'var(--space-xl)'
         }}>
-          <div style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column', gap: '48px' }}>
-          <section style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Mes missions</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {/* Mes missions section */}
+          <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+            <h2 style={{ margin: 0 }}>Mes missions</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
               {myMissions.map((mission, idx) => {
-                const isActive = idx === selectedMissionIndex;
+                const isFocused = idx === selectedMissionIndex;
                 return (
                   <div 
                     key={mission.id}
@@ -1151,34 +1120,32 @@ const Dashboard = () => {
                         setCurrentView('mission_detail');
                       }
                     }}
-                    style={{
+                    style={{ 
+                      backgroundColor: isFocused ? 'var(--accent-bg)' : 'var(--bg-color)', 
+                      border: 'var(--border-width) solid', 
+                      borderColor: isFocused ? 'var(--border-color)' : '#ccc',
+                      borderRadius: '8px', 
+                      padding: 'var(--space-md)',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '8px',
-                      padding: '20px 24px',
-                      borderRadius: '4px',
-                      border: '2px solid #ccc',
-                      borderColor: isActive ? '#1a1a1a' : '#ccc',
-                      backgroundColor: isActive ? '#e6e6e6' : '#fff',
-                      position: 'relative',
-                      width: '100%',
-                      boxShadow: isActive ? '0 0 0 4px #1a1a1a' : 'none',
-                      transition: 'none'
+                      gap: 'var(--space-sm)',
+                      boxShadow: isFocused ? '0 0 0 4px var(--border-color)' : 'none',
+                      position: 'relative'
                     }}
                   >
-                    <h3 style={{ fontSize: '20px', fontWeight: 700, margin: 0 }}>{mission.title}</h3>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                    <div style={{ fontSize: 'var(--fs-xl)', fontWeight: 700 }}>{mission.title}</div>
+                    <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', padding: '4px 12px', backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '4px', fontSize: 'var(--fs-xs)', fontWeight: 500 }}>
                         <ClipboardList size={14} /> {mission.category}
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', padding: '4px 12px', backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '4px', fontSize: 'var(--fs-xs)', fontWeight: 500 }}>
                         <Clock size={14} /> {mission.duration}
                       </div>
                     </div>
-                    {isActive && (
-                      <div className="ouvrir-panel" style={{ width: '100px' }}>
-                        <ArrowRight size={20} />
-                        <span className="ouvrir-text" style={{ fontSize: '14px' }}>Ouvrir</span>
+                    {isFocused && (
+                      <div className="ouvrir-panel" style={{ width: 'clamp(80px, 15vw, 120px)' }}>
+                        <ArrowRight size={24} />
+                        <span className="ouvrir-text" style={{ fontSize: 'var(--fs-xs)' }}>Ouvrir</span>
                       </div>
                     )}
                   </div>
@@ -1187,76 +1154,65 @@ const Dashboard = () => {
             </div>
           </section>
 
-          <section style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Toutes les missions</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {/* Toutes les missions section */}
+          <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+            <h2 style={{ margin: 0 }}>Toutes les missions</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
               {allMissions.map((mission, idx) => {
                 const globalIdx = myMissions.length + idx;
-                const isActive = globalIdx === selectedMissionIndex;
+                const isFocused = globalIdx === selectedMissionIndex;
                 return (
                   <div 
                     key={mission.id}
                     className="vibe-nav-item"
                     tabIndex={0}
                     onFocus={() => setSelectedMissionIndex(globalIdx)}
-                    style={{
+                    style={{ 
+                      backgroundColor: isFocused ? 'var(--accent-bg)' : 'var(--bg-color)', 
+                      border: 'var(--border-width) solid', 
+                      borderColor: isFocused ? 'var(--border-color)' : '#ccc',
+                      borderRadius: '8px', 
+                      padding: 'var(--space-md)',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '8px',
-                      padding: '20px 24px',
-                      borderRadius: '4px',
-                      border: '2px solid #ccc',
-                      borderColor: isActive ? '#1a1a1a' : '#ccc',
-                      backgroundColor: isActive ? '#e6e6e6' : '#fff',
-                      position: 'relative',
-                      width: '100%',
-                      boxShadow: isActive ? '0 0 0 4px #1a1a1a' : 'none',
-                      transition: 'none'
+                      gap: 'var(--space-sm)',
+                      boxShadow: isFocused ? '0 0 0 4px var(--border-color)' : 'none'
                     }}
                   >
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <h3 style={{ fontSize: '20px', fontWeight: 700, margin: 0 }}>{mission.title}</h3>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#eee', overflow: 'hidden' }}>
-                          {mission.avatar ? <img src={mission.avatar} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <User size={16} style={{ margin: '6px' }} />}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
+                      <div style={{ fontSize: 'var(--fs-xl)', fontWeight: 700 }}>{mission.title}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#f0f0f0', overflow: 'hidden', border: '1px solid #ccc' }}>
+                          {mission.avatar ? <img src={mission.avatar} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <User size={16} style={{ margin: '4px' }} />}
                         </div>
-                        <span style={{ fontSize: '16px', fontWeight: 600 }}>{mission.user}</span>
+                        <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 600 }}>{mission.user}</span>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                    <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', padding: '4px 12px', backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '4px', fontSize: 'var(--fs-xs)', fontWeight: 500 }}>
                         <ClipboardList size={14} /> {mission.category}
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: '#fff', border: '2px solid #ccc', borderRadius: '4px', fontSize: '14px', fontWeight: 500 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', padding: '4px 12px', backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '4px', fontSize: 'var(--fs-xs)', fontWeight: 500 }}>
                         <Clock size={14} /> {mission.duration}
                       </div>
                     </div>
-                    {isActive && (
-                      <div className="ouvrir-panel" style={{ width: '100px' }}>
-                        <ArrowRight size={20} />
-                        <span className="ouvrir-text" style={{ fontSize: '14px' }}>Ouvrir</span>
-                      </div>
-                    )}
                   </div>
                 );
               })}
             </div>
           </section>
-          </div>
         </div>
-
-        </main>
+      </main>
     );
   }
 
-  // --- COMMUNAUTE VIEW ---
   if (currentView === 'communaute') {
     const allMessages = [
       { id: 1, section: 'today', sender: 'Moi', content: "Salut tout le monde ! J'ai désherbé la parcelle B ce matin. Attention, les limaces ont commencé à attaquer les salades, j'ai mis un peu de marc de café.", fromMe: true, avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&auto=format&fit=crop' },
       { id: 2, section: 'today', sender: 'Marie.T', content: "Est-ce qu'on a encore du terreau de semis dans le casier 4 ? Je compte passer samedi pour les courgettes.", fromMe: false, avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&auto=format&fit=crop' },
       { id: 3, section: 'today', sender: 'Nathan.L', content: "Regardez les premières fleurs sur les fraisiers ! 🍓 J'ai fait une photo, je la mets sur le groupe !", fromMe: false, avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&h=150&auto=format&fit=crop', hasImage: true },
       { id: 4, section: 'today', sender: 'Moi', content: "Nathan, elles sont magnifiques ! Tu as utilisé quel engrais ?", fromMe: true, avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&auto=format&fit=crop' },
-      { id: 5, section: 'today', sender: 'Daniel.P', content: 'Du beau soleil arrive ! passez une bonne journée', fromMe: false, avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop' },
+      { id: 5, section: 'today', sender: 'Daniel.P', content: "Du beau soleil arrive ! passez une bonne journée", fromMe: false, avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop' },
       { id: 6, section: 'today', sender: 'Sophie.L', content: "Je passe arroser en fin d'après-midi, quelqu'un a besoin d'un coup de main pour sa parcelle ?", fromMe: false, avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&h=150&auto=format&fit=crop' },
       { id: 7, section: 'yesterday', sender: 'Daniel.P', content: '', fromMe: false, avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop', isVoice: true },
       { id: 8, section: 'yesterday', sender: 'Thomas.V', content: "J'ai laissé les outils propres dans le cabanon. Bonne soirée !", fromMe: false, avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop' },
@@ -1272,36 +1228,32 @@ const Dashboard = () => {
         style={{ 
           display: 'flex', 
           alignItems: 'flex-end', 
-          gap: '12px', 
+          gap: 'var(--space-xs)', 
           flexDirection: msg.fromMe ? 'row-reverse' : 'row', 
           outline: 'none',
-          padding: '8px',
-          borderRadius: '12px',
-          transition: 'none',
-          border: 'none',
-          backgroundColor: 'transparent',
-          boxShadow: 'none'
+          padding: '4px',
+          borderRadius: '12px'
         }}
       >
-        <img src={msg.avatar} alt={msg.fromMe ? 'Moi' : msg.sender} style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, filter: 'grayscale(100%)' }} />
-        <div style={{ maxWidth: '65%', display: 'flex', flexDirection: 'column', gap: '6px', alignItems: msg.fromMe ? 'flex-end' : 'flex-start' }}>
-          {!msg.fromMe && <span style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a' }}>{msg.sender}</span>}
-          <div style={{ backgroundColor: msg.fromMe ? '#808080' : '#f0f0f0', borderRadius: msg.fromMe ? '16px 4px 16px 16px' : '4px 16px 16px 16px', padding: '14px 18px' }}>
+        <img src={msg.avatar} alt={msg.fromMe ? 'Moi' : msg.sender} style={{ width: 'clamp(32px, 5vw, 48px)', height: 'clamp(32px, 5vw, 48px)', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, filter: 'grayscale(100%)' }} />
+        <div style={{ maxWidth: '75%', display: 'flex', flexDirection: 'column', gap: '4px', alignItems: msg.fromMe ? 'flex-end' : 'flex-start' }}>
+          {!msg.fromMe && <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 700 }}>{msg.sender}</span>}
+          <div style={{ backgroundColor: msg.fromMe ? 'var(--accent-bg)' : '#f0f0f0', border: '1px solid #ccc', borderRadius: msg.fromMe ? '12px 4px 12px 12px' : '4px 12px 12px 12px', padding: 'var(--space-sm)' }}>
             {msg.hasImage && (
-              <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=500&auto=format&fit=crop" alt="fraisiers" style={{ width: '100%', borderRadius: '8px', marginBottom: '10px', filter: 'grayscale(100%)' }} />
+              <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=500&auto=format&fit=crop" alt="fraisiers" style={{ width: '100%', borderRadius: '8px', marginBottom: '8px', filter: 'grayscale(100%)' }} />
             )}
             {msg.isVoice ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Play size={18} color={msg.fromMe ? 'white' : '#1a1a1a'} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Play size={16} color="#1a1a1a" fill="#1a1a1a" />
                 <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
                   {[10,18,12,24,30,22,28,18,10,8,16,24,14,10].map((h,i) => (
-                    <div key={i} style={{ width: '3px', height: `${h}px`, backgroundColor: msg.fromMe ? 'white' : '#1a1a1a', borderRadius: '2px' }} />
+                    <div key={i} style={{ width: '2px', height: `${h * 0.5}px`, backgroundColor: '#1a1a1a', borderRadius: '1px' }} />
                   ))}
                 </div>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: msg.fromMe ? 'white' : '#1a1a1a' }}>0:34</span>
+                <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 600 }}>0:34</span>
               </div>
             ) : (
-              <p style={{ margin: 0, fontSize: '18px', lineHeight: 1.4, color: msg.fromMe ? 'white' : '#1a1a1a' }}>{msg.content}</p>
+              <p style={{ margin: 0, fontSize: 'var(--fs-base)', lineHeight: 1.4 }}>{msg.content}</p>
             )}
           </div>
         </div>
@@ -1309,20 +1261,20 @@ const Dashboard = () => {
     );
 
     return (
-      <main style={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#fff', position: 'relative', overflowY: 'auto', overflowX: 'hidden' }}>
+      <main style={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-color)', position: 'relative', overflowY: 'auto', overflowX: 'hidden' }}>
         <Header showLogo={false} title="La Communauté" icon={<Users size={60} />} sticky={true} />
-        <div className="responsive-container" style={{ marginTop: '20px', paddingBottom: '120px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', zIndex: 5 }}>
-          <div style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            <section style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Aujourd'hui</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div className="responsive-container" style={{ marginTop: 'var(--space-xl)', paddingBottom: 'var(--space-xl)', display: 'flex', flexDirection: 'column', width: '100%', zIndex: 5 }}>
+          <div style={{ width: '100%', maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+              <h2 style={{ margin: 0 }}>Aujourd'hui</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
                 {todayMessages.map((msg) => renderMessage(msg))}
               </div>
             </section>
 
-            <section style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Hier</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+              <h2 style={{ margin: 0 }}>Hier</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
                 {yesterdayMessages.map((msg) => renderMessage(msg))}
               </div>
             </section>
@@ -1337,16 +1289,16 @@ const Dashboard = () => {
       height: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      backgroundColor: '#fff',
+      backgroundColor: 'var(--bg-color)',
       position: 'relative',
       overflowX: 'hidden',
       overflowY: 'auto',
-      paddingBottom: '120px'
+      paddingBottom: 'var(--space-xl)'
     }}>
       <Header showLogo={false} showProfile={true} sticky={true} />
       
       <div className="responsive-container" style={{
-        marginTop: '40px',
+        marginTop: 'var(--space-lg)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -1358,7 +1310,7 @@ const Dashboard = () => {
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
+          gap: 'var(--space-md)',
           width: '100%',
           maxWidth: '900px'
         }}>
@@ -1378,26 +1330,24 @@ const Dashboard = () => {
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '8px',
-                  padding: '24px 32px',
-                  borderRadius: '4px',
-                  border: '2px solid #ccc',
-                  borderColor: isActive ? '#1a1a1a' : '#ccc',
-                  backgroundColor: isActive ? '#e6e6e6' : '#fff',
+                  gap: 'var(--space-xs)',
+                  padding: 'var(--space-md)',
+                  borderRadius: '8px',
+                  border: 'var(--border-width) solid',
+                  borderColor: isActive ? 'var(--border-color)' : '#ccc',
+                  backgroundColor: isActive ? 'var(--accent-bg)' : 'var(--bg-color)',
                   position: 'relative',
-                  transition: 'none',
                   width: '100%',
-                  boxShadow: isActive ? '0 0 0 4px #1a1a1a' : 'none'
+                  boxShadow: isActive ? '0 0 0 4px var(--border-color)' : 'none'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{ color: '#1a1a1a' }}>{React.cloneElement(item.icon as React.ReactElement, { size: 24 })}</div>
-                  <h2 style={{ fontSize: '24px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{item.title}</h2>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                  <div style={{ color: 'var(--text-primary)' }}>{React.cloneElement(item.icon as React.ReactElement, { size: 24 })}</div>
+                  <h2 style={{ fontSize: 'var(--fs-xl)', margin: 0 }}>{item.title}</h2>
                 </div>
                 <p style={{ 
-                  fontSize: '14px', 
+                  fontSize: 'var(--fs-base)', 
                   fontWeight: 500, 
-                  color: '#4d4d4d', 
                   margin: 0,
                   maxWidth: '550px',
                   lineHeight: 1.4
@@ -1406,17 +1356,17 @@ const Dashboard = () => {
                 </p>
 
                 {isActive && (
-                  <div className="ouvrir-panel" style={{ width: '100px' }}>
-                    <ArrowRight size={20} />
-                    <span className="ouvrir-text" style={{ fontSize: '14px' }}>Ouvrir</span>
+                  <div className="ouvrir-panel" style={{ width: 'clamp(80px, 15vw, 120px)' }}>
+                    <ArrowRight size={24} />
+                    <span className="ouvrir-text" style={{ fontSize: 'var(--fs-xs)' }}>Ouvrir</span>
                   </div>
                 )}
               </div>
             );
           })}
 
-          {/* Logout Button Aligned to Right of Cards */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+          {/* Logout Button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-sm)' }}>
             <div 
               className="vibe-nav-item" 
               tabIndex={0} 
@@ -1425,14 +1375,13 @@ const Dashboard = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                borderRadius: '4px',
+                gap: 'var(--space-xs)',
+                padding: 'var(--space-sm) var(--space-md)',
+                borderRadius: '8px',
                 border: '2px solid #ccc',
-                backgroundColor: '#fff',
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#1a1a1a'
+                backgroundColor: 'var(--bg-color)',
+                fontSize: 'var(--fs-base)',
+                fontWeight: 600
               }}
             >
               <span>Se déconnecter</span>
@@ -1441,6 +1390,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+    </main>
+  );
+};
 
       {/* Decorative background curve */}
     </main>
