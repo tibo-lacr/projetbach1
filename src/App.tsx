@@ -154,7 +154,7 @@ const Header = ({ showLogo = true, showProfile = false, title, icon, sticky = fa
   );
 };
 
-const Onboarding = () => {
+const Onboarding = ({ onUnlock }: { onUnlock: () => void }) => {
   return (
     <main style={{
       minHeight: '100vh',
@@ -206,9 +206,9 @@ const Onboarding = () => {
           gap: '32px'
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-            <div className="premium-card" style={{ width: '100%', height: '56px', padding: '0 24px' }}>
-              <Nfc size={32} strokeWidth={1.5} />
-              <span style={{ fontSize: '24px', fontWeight: 500 }}>
+            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '140px', padding: '0 40px' }}>
+              <Nfc size={48} strokeWidth={2} />
+              <span style={{ fontSize: '32px', fontWeight: 600 }}>
                 Passer mon Badge
               </span>
             </div>
@@ -218,9 +218,9 @@ const Onboarding = () => {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-            <div className="premium-card" style={{ width: '100%', height: '56px', padding: '0 24px' }}>
-              <Smartphone size={32} strokeWidth={1.5} />
-              <span style={{ fontSize: '24px', fontWeight: 500 }}>
+            <div className="premium-card" onClick={onUnlock} style={{ width: '100%', height: '140px', padding: '0 40px' }}>
+              <Smartphone size={48} strokeWidth={2} />
+              <span style={{ fontSize: '32px', fontWeight: 600 }}>
                 Détection mobile
               </span>
             </div>
@@ -1662,7 +1662,7 @@ function App() {
 
   return (
     <div className="App">
-      {screen === 'onboarding' && <Onboarding />}
+      {screen === 'onboarding' && <Onboarding onUnlock={() => setScreen('transition')} />}
       {screen === 'transition' && <Transition onComplete={() => setScreen('dashboard')} />}
       {screen === 'dashboard' && <Dashboard />}
     </div>
