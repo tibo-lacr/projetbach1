@@ -830,7 +830,15 @@ const Dashboard = () => {
           <div style={{ display: 'flex', gap: '12px', width: '100%', justifyContent: 'flex-end', marginTop: 'auto' }}>
             <div className="vibe-nav-item vibe-dark-btn" tabIndex={0} onClick={() => setCurrentView('mission_success')} style={{ 
               backgroundColor: '#1a1a1a', 
-              color: 'white', 
+              color: 'white',
+              padding: '12px 20px', 
+              borderRadius: '8px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              gap: '12px',
+              border: '2px solid transparent'
+            }}>
               <span style={{ fontSize: '14px', fontWeight: 600 }}>Mission réussie</span>
               <CheckCircle2 size={16} />
             </div>
